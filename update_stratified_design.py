@@ -3,6 +3,11 @@
 from utils import get_file_info, plot_design, Save_Stratified
 from sda import update_stratified_design
 import os
+import click
+
+@click.command('--save_folder', type=str, default='Stratified_Adapted', help='Specify the name of the folder where results will be saved')
+@cilck.command('--mask_path', type=str, default='raw/InvalidAreasMask.tif', help='Specify path and name of the invalid areas mask')
+@click.command('--nsp', type=int, default=30, help='Specify an integer number of sample sites')
 
 # Specify name for project - this folder will be created in the results folder, and
 # all outputs saved in this directory, e.g:

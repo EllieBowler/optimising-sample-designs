@@ -3,19 +3,24 @@
 from utils import get_file_info, plot_design, Save_Stratified
 from sda import generate_stratified_design
 import os
+import click
 
-# Specify name for project - this folder will be created in the results folder, and
-# all outputs saved in this directory, e.g:
-save_folder = 'Stratified_Design_Test'
+@click.command('--save_folder', type=str, default='Stratified_Design', help='Specify the name of the folder where results will be saved')
+@cilck.command('--mask_path', type=str, default='raw/InvalidAreasMask.tif', help='Specify path and name of the invalid areas mask')
+@click.command('--nsp', type=int, default=30, help='Specify an integer number of sample sites')
 
-# Enter path to invalid areas masked (saved in the 'raw' data folder), e.g:
-mask_path = 'raw/InvalidAreasMask.tif'
+# # Specify name for project - this folder will be created in the results folder, and
+# # all outputs saved in this directory, e.g:
+# save_folder = 'Stratified_Design_Test'
 
-# Enter an integer number of sample sites, e.g:
-nsp = 30
+# # Enter path to invalid areas masked (saved in the 'raw' data folder), e.g:
+# mask_path = 'raw/InvalidAreasMask.tif'
+
+# # Enter an integer number of sample sites, e.g:
+# nsp = 30
 
 
-def main():
+def generate_design():
     # make results folder to save output
     savepath = 'results/{}'.format(save_folder)
 
@@ -36,7 +41,9 @@ def main():
 
     return
 
-main()
+if __name__ == '__main__':
+    generate_design()
+    
 
 
 
