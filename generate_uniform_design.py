@@ -23,20 +23,19 @@ import os
 import click
 
 # Arguments used to call the method from the command line
-@click.command('--save_folder', type=str, default='Stratified_Design', help='Specify the name of the folder where results will be saved')
-@click.command('--n_metrics', type=int, default=1, help='The number of fragmentation metric maps you will be inputting')
-@click.command('metric1', type=str, default='raw/DistanceToEdgeLog2.tif', help='Specify path and name of metric')
-@click.command('metric2', type=str, default='raw/FragmentAreaLog10.tif', help='Specify path and name of metric')
-@cilck.command('--mask_path', type=str, default='raw/InvalidAreasMask.tif', help='Specify path and name of the invalid areas mask')
-@click.command('--nsp', type=int, default=30, help='Specify an integer number of sample sites')
-
-
-def generate_design():
+@click.command()
+@click.option('--save_folder', type=str, default='Stratified_Design', help='Specify the name of the folder where results will be saved')
+@click.option('--n_metrics', type=int, default=1, help='The number of fragmentation metric maps you will be inputting')
+@click.option('metric1', type=str, default='raw/DistanceToEdgeLog2.tif', help='Specify path and name of metric')
+@click.option('metric2', type=str, default='raw/FragmentAreaLog10.tif', help='Specify path and name of metric')
+@click.option('--mask_path', type=str, default='raw/InvalidAreasMask.tif', help='Specify path and name of the invalid areas mask')
+@click.option('--nsp', type=int, default=30, help='Specify an integer number of sample sites')
+def generate_design(save_folder, n_metrics, metric1, metric2, mask_path, nsp):
     
     # make results folder to save output
-    savepath = 'results/{}'.format(save_folder)
-    if not os.path.exists(savepath):
-        os.mkdir(savepath)
+    save_path = 'results/{}'.format(save_folder)
+    if not os.path.exists(save_path):
+        os.mkdir(save_path)
 
     # get geo info and mask from tif file
     mask, nbins, res, GeoT, auth_code = get_file_info(mask_path)
@@ -48,9 +47,10 @@ def generate_design():
     plot_design(mask, x_unif, y_unif)
 
     # save results to csv
-    save_uniform(x_unif, y_unif, GeoT, auth_code, savepath, nsampled=0, updated='')
+    save_uniform(x_unif, y_unif, GeoT, auth_code, save_path, nsampled=0, updated='')
 
     return
+
 
 if __name__ == '__main__':
     generate_design()

@@ -1,6 +1,6 @@
 ### Main script for updating a stratified design
 ### NOTE: THIS CODE REQUIRES AN EXISTING STRATIFIED DESIGN (generate_stratified_design.py)
-### File: update_stratified_design.py
+### File: 2.py
 ### Ellie Bowler
 ### contact: e.bowler@uea.ac.uk
 ### All code available at https://github.com/EllieBowler/
@@ -12,7 +12,7 @@
 # --csv_path csv file output by the original stratified design, with sampled column tagged
 ###################################################################
 # Example adapting design generated using the test data
-# python update_stratified_design.py --save_folder AdaptedStratified30 --updated_mask_path raw/InvalidAreasMask_updated.tif --csv_path results
+# python update_stratified_design_opt2.py --save_folder AdaptedStratified30 --updated_mask_path raw/InvalidAreasMask_updated.tif --csv_path results
 ###################################################################
 
 from utils import get_file_info, plot_design, save_stratified
@@ -20,16 +20,17 @@ from sda import update_stratified_design
 import os
 import click
 
-@click.command('--save_folder', type=str, default='Stratified_Adapted', help='Specify the name of the folder where results will be saved')
-@cilck.command('--updated_mask_path', type=str, default='raw/InvalidAreasMask_updated.tif', help='Specify path and name of the invalid areas mask')
-@click.command('--csv_path', type=int, default=30, help='Specify an integer number of sample sites')
 
-def main():
+@click.command()
+@click.option('--save_folder', type=str, default='Stratified_Adapted', help='Specify the name of the folder where results will be saved')
+@click.option('--updated_mask_path', type=str, default='raw/InvalidAreasMask_updated.tif', help='Specify path and name of the invalid areas mask')
+@click.option('--csv_path', type=int, default=30, help='Specify an integer number of sample sites')
+def generate_design(save_folder, updated_mask_path, csv_path):
+
     # make results folder to save output
-    savepath = 'results/{}'.format(save_folder)
-
-    if not os.path.exists(savepath):
-        os.mkdir(savepath)
+    save_path = 'results/{}'.format(save_folder)
+    if not os.path.exists(save_path):
+        os.mkdir(save_path)
 
     # get geo info and mask from path
     mask, nbins, res, GeoT, auth_code = get_file_info(mask_path)
@@ -41,8 +42,10 @@ def main():
     plot_design(mask, x_strat, y_strat)
 
     # save results to csv
-    Save_Stratified(x_strat, y_strat, GeoT, auth_code, savepath, nsampled=0, updated='')
+    save_stratified(x_strat, y_strat, GeoT, auth_code, save_path, nsampled=0, updated='')
 
     return
 
-main()
+
+if __name__ == '__main__':
+    generate_design()
