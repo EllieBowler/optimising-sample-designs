@@ -33,7 +33,7 @@ def LongLatConvert(x, y, GeoT, auth_code):
     return longlat
 
 
-def Save_Stratified(x, y, GeoT, auth_code, savepath, nsampled=0, updated=''):
+def save_stratified(x, y, GeoT, auth_code, savepath, nsampled=0, updated=''):
     """Convert sites to lists of geographic coordinates and save as csv files"""
     nsp = len(x)
     # Convert from row/col to projected
