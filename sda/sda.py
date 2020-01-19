@@ -7,16 +7,8 @@ from random import randint
 from scipy import ndimage
 from copy import copy
 
-def generate_stratified_design(mask, nsp):
-    """"
-    Generate a stratified design for the landscape
-    INPUTS:
-        mask: (.tif) Binary invalid areas mask of size (imheight, imwidth) showing areas which should not be sampled
-        nsp: (integer) Desired number of sample sites
-    OUTPUTS:
-        xy0: (.npy) A (2, nsp) dimension list of x, y coordinates for the chosen sample sites
-    """
 
+def generate_stratified_design(mask, nsp):
     # Initialise empty arrays and lists to save design
     imheight, imwidth = mask.shape
     dist_im = np.ones((imheight, imwidth))
@@ -26,6 +18,7 @@ def generate_stratified_design(mask, nsp):
     y_vals = []
 
     for i in range(nsp):
+        print('Plotting site {}'.format(i + 1))
 
         # Make all elements of EDT map in invalid region 0
         dist_im = dist_im * mask_aux
@@ -47,8 +40,5 @@ def generate_stratified_design(mask, nsp):
         # Update the euclidean distance transform
         dist_im = ndimage.distance_transform_edt(sites)
 
-        print('Plotted sample site {}'.format(i+1))
-
-    #xy0 = np.hstack([x_vals, y_vals])
-    #return xy0
+    print('Stratified sample design complete!')
     return x_vals, y_vals

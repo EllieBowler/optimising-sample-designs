@@ -17,7 +17,7 @@
 # python generate_stratified_design.py --save_folder Stratified_Design_Demo --mask_path raw/InvalidAreasMask.tif --nsp 30
 ###################################################################
 
-from utils import get_file_info, plot_design, save_stratified
+from utils import get_file_info, plot_stratified, save_stratified, save_coords_as_shp
 from sda import generate_stratified_design
 import os
 import click
@@ -36,21 +36,23 @@ def generate_design(save_folder, mask_path, nsp):
     save_path = 'results/{}'.format(save_folder)
     if not os.path.exists(save_path):
         os.mkdir(save_path)
+    print('Results will be saved to {}'.format(save_path))
 
     # get geo info and mask from tif file
-    mask, nbins, res, GeoT, auth_code = get_file_info(mask_path)
+    mask, nbins, res, GeoT, prj_info = get_file_info(mask_path)
 
     # generate design
     x_strat, y_strat = generate_stratified_design(mask, nsp)
 
     # plot design in pop up
-    plot_design(mask, x_strat, y_strat)
+    plot_stratified(mask, x_strat, y_strat)
 
     # save results to csv
-    save_stratified(x_strat, y_strat, GeoT, auth_code, save_path, nsampled=0, updated='')
-
+    save_stratified(x_strat, y_strat, prj_info, GeoT, save_path, nsampled=0, updated='')
+    save_coords_as_shp(x_strat, y_strat, GeoT, save_path + '/Test.shp')
     return
 
 
 if __name__ == '__main__':
     generate_design()
+

@@ -15,10 +15,11 @@
 # python update_stratified_design_opt1.py --save_folder AdaptedStratified30 --updated_mask_path raw/InvalidAreasMask_updated.tif --csv_path results
 ###################################################################
 
-from utils import get_file_info, plot_design, save_stratified
+from utils import get_file_info, plot_stratified, save_stratified, save_coords_as_shp
 from sda import update_stratified_design
 import os
 import click
+import pandas as pd
 
 
 @click.command()
@@ -31,19 +32,21 @@ def generate_design(save_folder, updated_mask_path, csv_path):
     save_path = 'results/{}'.format(save_folder)
     if not os.path.exists(save_path):
         os.mkdir(save_path)
+    print('Results will be saved to {}'.format(save_path))
 
     # get geo info and mask from path
-    mask, nbins, res, GeoT, auth_code = get_file_info(mask_path)
+    updated_mask, nbins, res, GeoT, prj_info = get_file_info(updated_mask_path)
+    sampled_csv = pd.read_csv(csv_path)
 
     # generate design
-    x_strat, y_strat = update_stratified_design(mask, nsp, sampled_df)
+    x_adpt, y_adpt = update_stratified_design(updated_mask, sampled_csv)
 
     # plot design in pop up
-    plot_design(mask, x_strat, y_strat)
+    plot_stratified(updated_mask, x_adpt, y_adpt)
 
     # save results to csv
-    save_stratified(x_strat, y_strat, GeoT, auth_code, save_path, nsampled=0, updated='')
-
+    save_stratified(x_adpt, y_adpt, prj_info, GeoT, save_path, nsampled=0, updated='')
+    save_coords_as_shp(x_adpt, y_adpt, GeoT, save_path + '/Test.shp')
     return
 
 
