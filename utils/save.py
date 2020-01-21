@@ -53,7 +53,7 @@ def save_coords_as_shp(x, y, GeoT, out_filename):
     return
 
 
-def save_stratified(x, y, prj_info, GeoT, save_path, nsampled=0, updated=''):
+def save_stratified(x, y, prj_info, GeoT, save_path, sampled_csv=None):
     """Convert sites to lists of geographic coordinates and save as csv files"""
     ts = time.gmtime()
     ts = time.strftime("%Y_%m_%d_%H%M%S", ts)
@@ -65,10 +65,15 @@ def save_stratified(x, y, prj_info, GeoT, save_path, nsampled=0, updated=''):
     result['row'] = x
     result['col'] = y
     result['sampled'] = 0
-    csv_filename = '{}_{}site_strat.csv'.format(ts, len(x))
+    csv_filename = '{}_{}site_strat'.format(ts, len(x))
+    if sampled_csv:
+        num_sampled = sum(sampled_csv.sampled)
+        result['sampled'][:num_sampled] = 1
+        csv_filename = '{}_{}site_strat_adapted'.format(ts, len(x))
     result.index += 1
-    result.to_csv('{}/{}'.format(save_path, csv_filename), index_label='site')
+    result.to_csv('{}/{}.csv'.format(save_path, csv_filename), index_label='site')
     print('Design saved as csv in {} directory \nFile name: {}'.format(save_path, csv_filename))
+    save_coords_as_shp(x, y, GeoT, '{}/{}.shp'.format(save_path, ts, len(x)))
     # Reformat and save to csv
     # result = pd.DataFrame(list(zip(*longlat)), columns = ['longitude','latitude'])
     # result.index += 1; result['row'] = x; result['col'] = y

@@ -37,18 +37,37 @@ def extract_raster(tif_path):
     return tif_raw.ReadAsArray()
 
 
+# def update_mask(site_df, mask, radius, res):
+#     imheight, imwidth = mask.shape
+#     mask_update = np.ones((imheight, imwidth))
+#     # Code the point to mask as zero
+#     center_pixel = site_df.loc[site_df['sampled']==2]
+#     x = center_pixel['row'].values; y = center_pixel['col'].values
+#     mask_update[x,y] = 0
+#     # Threshold distance transform and add to original mask
+#     dist_im = ndimage.distance_transform_edt(mask_update)*res
+#     dist_im[dist_im<radius] = 0; dist_im[dist_im>=radius] = 1;
+#     mask_inv = 1-mask; mask_new = 1-dist_im*mask_inv
+#     mask_new_inv = 1-mask_new
+#     return mask_new, mask_new_inv
+
+
 def update_mask(site_df, mask, radius, res):
+    # Create array same dimensions as input mask
     imheight, imwidth = mask.shape
     mask_update = np.ones((imheight, imwidth))
-    # Code the point to mask as zero
-    center_pixel = site_df.loc[site_df['sampled']==2]
-    x = center_pixel['row'].values; y = center_pixel['col'].values
-    mask_update[x,y] = 0
+
+    # Set the point to mask as a zero
+    center_pixel = site_df.loc[site_df['sampled'] == 2]
+    x = center_pixel['row'].values;
+    y = center_pixel['col'].values
+    mask_update[x, y] = 0
+
     # Threshold distance transform and add to original mask
-    dist_im = ndimage.distance_transform_edt(mask_update)*res
-    dist_im[dist_im<radius] = 0; dist_im[dist_im>=radius] = 1;
-    mask_inv = 1-mask; mask_new = 1-dist_im*mask_inv
-    mask_new_inv = 1-mask_new
-    return mask_new, mask_new_inv
+    dist_im = ndimage.distance_transform_edt(mask_update) * res
+    dist_im[dist_im < radius] = 0;
+    dist_im[dist_im >= radius] = 1
 
+    new_mask = dist_im * mask
 
+    return new_mask

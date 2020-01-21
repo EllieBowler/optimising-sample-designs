@@ -42,11 +42,11 @@ def generate_design(save_folder, updated_mask_path, csv_path):
     x_adpt, y_adpt = update_stratified_design(updated_mask, sampled_csv)
 
     # plot design in pop up
-    plot_stratified(updated_mask, x_adpt, y_adpt)
+    plot_adapted_stratified(updated_mask, x_adpt, y_adpt, sampled_csv)
 
     # save results to csv
-    save_stratified(x_adpt, y_adpt, prj_info, GeoT, save_path, nsampled=0, updated='')
-    save_coords_as_shp(x_adpt, y_adpt, GeoT, save_path + '/Test.shp')
+    save_stratified(x_adpt, y_adpt, prj_info, GeoT, save_path, sampled_csv)
+    # save_coords_as_shp(x_adpt, y_adpt, GeoT, save_path + '/Test.shp')
     return
 
 

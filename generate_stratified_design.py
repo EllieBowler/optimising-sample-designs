@@ -49,7 +49,7 @@ def generate_design(save_folder, mask_path, nsp):
 
     # save results to csv
     save_stratified(x_strat, y_strat, prj_info, GeoT, save_path, nsampled=0, updated='')
-    save_coords_as_shp(x_strat, y_strat, GeoT, save_path + '/Test.shp')
+    # save_coords_as_shp(x_strat, y_strat, GeoT, save_path + '/Test.shp')
     return
 
 

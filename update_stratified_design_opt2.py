@@ -1,6 +1,6 @@
 ### Main script for updating a stratified design
 ### NOTE: THIS CODE REQUIRES AN EXISTING STRATIFIED DESIGN (generate_stratified_design.py)
-### File: 2.py
+### File: update_stratified_design_opt2.py
 ### Ellie Bowler
 ### contact: e.bowler@uea.ac.uk
 ### All code available at https://github.com/EllieBowler/
@@ -8,14 +8,14 @@
 ###################################################################
 ## Usage:
 # --save_folder is the name of the directory where outputs will be saved, in the results subfolder
-# --updated_mask_path is the name of the input mask (for example InvalidAreasMask.tif)
+# --original_mask_path is the name of the input mask (for example InvalidAreasMask.tif)
 # --csv_path csv file output by the original stratified design, with sampled column tagged
 ###################################################################
 # Example adapting design generated using the test data
 # python update_stratified_design_opt2.py --save_folder AdaptedStratified30 --updated_mask_path raw/InvalidAreasMask_updated.tif --csv_path results
 ###################################################################
 
-from utils import get_file_info, plot_design, save_stratified
+from utils import get_file_info, plot_design, save_stratified, update_mask
 from sda import update_stratified_design
 import os
 import click
@@ -23,9 +23,10 @@ import click
 
 @click.command()
 @click.option('--save_folder', type=str, default='Stratified_Adapted', help='Specify the name of the folder where results will be saved')
-@click.option('--updated_mask_path', type=str, default='raw/InvalidAreasMask_updated.tif', help='Specify path and name of the invalid areas mask')
+@click.option('--original_mask_path', type=str, default='raw/InvalidAreasMask.tif', help='Specify path and name of the invalid areas mask')
 @click.option('--csv_path', type=int, default=30, help='Specify an integer number of sample sites')
-def generate_design(save_folder, updated_mask_path, csv_path):
+@click.option('--radius', type=float, default=2000, help='Enter radius to exclude around tagged points (in metres)')
+def generate_design(save_folder, original_mask_path, csv_path, radius):
 
     # make results folder to save output
     save_path = 'results/{}'.format(save_folder)
@@ -33,17 +34,19 @@ def generate_design(save_folder, updated_mask_path, csv_path):
         os.mkdir(save_path)
 
     # get geo info and mask from path
-    mask, nbins, res, GeoT, auth_code = get_file_info(mask_path)
+    original_mask, nbins, res, GeoT, prj_info = get_file_info(original_mask_path)
+    sampled_csv = pd.read_csv(csv_path)
+
+    updated_mask = update_mask(sampled_csv, original_mask, radius, res)
 
     # generate design
-    x_strat, y_strat = update_stratified_design(mask, nsp, sampled_df)
+    x_adpt, y_adpt = update_stratified_design(updated_mask, sampled_csv)
 
     # plot design in pop up
-    plot_design(mask, x_strat, y_strat)
+    plot_adapted_stratified(updated_mask, x_adpt, y_adpt, sampled_csv)
 
     # save results to csv
-    save_stratified(x_strat, y_strat, GeoT, auth_code, save_path, nsampled=0, updated='')
-
+    save_stratified(x_adpt, y_adpt, prj_info, GeoT, save_path, sampled_csv)
     return
 
 
