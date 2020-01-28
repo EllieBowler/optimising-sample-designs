@@ -1,9 +1,9 @@
+import numpy as np
+from random import randint
+from scipy import ndimage
+
 
 def generate_uniform_design(id_mix, unique_IDs, store_masks):
-    """
-    INPUTS:
-    OUTPUTS:
-    """
 
     """Generate a uniform design.
     Inputs: id_mix - A list where each ID is repeated by the number of sample sites
@@ -19,17 +19,23 @@ def generate_uniform_design(id_mix, unique_IDs, store_masks):
     x_vals = []
     y_vals = []
     loop_count = 0
-    nsp = len(id_mix)
 
     for i in id_mix:
 
+        loop_count += 1
+        print('Plotting site {}, id number {}'.format(loop_count, i))
+
+        maskID = np.where(ID_im == i, 1, 0)
+        layer = maskID * dist_im
+
         # Select binary map relating to selected ID
-        maskID = unique_IDs.index(i)
+        # maskID = unique_IDs.index(i)
         # Mask out any regions of EDT not in ID
-        layer = store_masks[maskID, :, :] * dist_im
+        # layer = store_masks[maskID, :, :] * dist_im
 
         # Extract coords of pixels with maximum distance value and choose one at random
-        dist_mx = zip(*np.where(layer == layer.max()))
+        # dist_mx = zip(*np.where(layer == layer.max()))
+        dist_mx = list(zip(*np.where(layer == layer.max())))
         idx = randint(0, len(dist_mx) - 1)
         x, y = dist_mx[idx]
 
@@ -42,7 +48,7 @@ def generate_uniform_design(id_mix, unique_IDs, store_masks):
 
         # Compute EDT from all placed sites
         dist_im = ndimage.distance_transform_edt(sites)
-        loop_count += 1
 
-    xy0 = np.hstack([x_vals, y_vals])
-    return xy0
+    print('Uniform sample design complete!')
+    # xy0 = np.hstack([x_vals, y_vals])
+    return x_vals, y_vals

@@ -1,24 +1,27 @@
+import numpy as np
+
 
 def discretize_metric(metric, mask, nbins):
     """Convert continuous metrics into discrete, using the specified number of bins"""
     imheight, imwidth = metric.shape
     # Mask out invalid areas of metric
     metric_mask = ma.masked_array(metric, mask=mask)
-    # Break range of unmasked metric values into 'nbin' intervals
-    hist, breaks, patches = plt.hist(metric_mask.compressed(), bins = nbins)
+    # Break range of unmasked metric values into 'nbins' intervals
+    hist, breaks = np.histogram(metric_mask.compressed(), bins=nbins)
     # Each bin a unique integer ID
-    ids = range(nbins)
-    ones = np.ones((imheight, imwidth)); metric_bin = np.zeros((imheight, imwidth))
+    ids = np.linspace(0, nbins-1, nbins).astype(int)
+    ones = np.ones((imheight, imwidth))
+    metric_bin = np.zeros((imheight, imwidth))
     # Loop through ID's and convert all values in each bin to corresponding id
     for ID in ids:
         # Closed on the lower bound, open on the top
-        lower_lim=np.where(ones, metric_mask>=breaks[ID], 0)
-        upper_lim=np.where(ones, metric_mask<breaks[ID+1], 0)
+        lower_lim = np.where(ones, metric_mask >= breaks[ID], 0)
+        upper_lim = np.where(ones, metric_mask < breaks[ID+1], 0)
         # Make the last interval closed at the upper bound
         if ID == nbins-1:
-            upper_lim = np.where(ones, metric_mask<=breaks[ID+1], 0)
+            upper_lim = np.where(ones, metric_mask <= breaks[ID+1], 0)
         metric_bin += lower_lim*upper_lim*ID
-    return metric_bin, ids, breaks
+    return metric_bin, ids, breaks, hist
 
 
 def build_df(bin_ids):

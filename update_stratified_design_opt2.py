@@ -15,17 +15,18 @@
 # python update_stratified_design_opt2.py --save_folder AdaptedStratified30 --updated_mask_path raw/InvalidAreasMask_updated.tif --csv_path results
 ###################################################################
 
-from utils import get_file_info, plot_design, save_stratified, update_mask
+from utils import get_file_info, plot_adapted_stratified, save_stratified, update_mask
 from sda import update_stratified_design
 import os
 import click
+import pandas as pd
 
 
 @click.command()
 @click.option('--save_folder', type=str, default='Stratified_Adapted', help='Specify the name of the folder where results will be saved')
 @click.option('--original_mask_path', type=str, default='raw/InvalidAreasMask.tif', help='Specify path and name of the invalid areas mask')
-@click.option('--csv_path', type=int, default=30, help='Specify an integer number of sample sites')
-@click.option('--radius', type=float, default=2000, help='Enter radius to exclude around tagged points (in metres)')
+@click.option('--csv_path', type=str, default='results/30site_strat_tagged_opt2.csv', help='Specify path to tagged csv file')
+@click.option('--radius', type=float, default=3000, help='Enter radius to exclude around tagged points (in metres)')
 def generate_design(save_folder, original_mask_path, csv_path, radius):
 
     # make results folder to save output

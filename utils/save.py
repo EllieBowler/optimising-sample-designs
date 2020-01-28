@@ -66,9 +66,10 @@ def save_stratified(x, y, prj_info, GeoT, save_path, sampled_csv=None):
     result['col'] = y
     result['sampled'] = 0
     csv_filename = '{}_{}site_strat'.format(ts, len(x))
-    if sampled_csv:
+    if not sampled_csv.empty:
         num_sampled = sum(sampled_csv.sampled)
-        result['sampled'][:num_sampled] = 1
+        result['sampled'] = [1] * num_sampled + [0] * (len(x) - num_sampled)
+        # result['sampled'][:num_sampled] = 1
         csv_filename = '{}_{}site_strat_adapted'.format(ts, len(x))
     result.index += 1
     result.to_csv('{}/{}.csv'.format(save_path, csv_filename), index_label='site')
@@ -79,4 +80,20 @@ def save_stratified(x, y, prj_info, GeoT, save_path, sampled_csv=None):
     # result.index += 1; result['row'] = x; result['col'] = y
     # result['sampled'] = np.hstack(([1]*nsampled, [0]*(nsp-nsampled)))
     # result.to_csv('{0}/{1}Site_Stratified_Design{2}.csv'.format(savepath, nsp, updated), index_label='site')
+    return
+
+
+def save_uniform(x, y, prj_info, GeoT, save_path, sampled_csv=None):
+    """Convert sites to lists of geographic coordinates and save as csv files"""
+    ts = time.gmtime()
+    ts = time.strftime("%Y_%m_%d_%H%M%S", ts)
+    # Convert from row/col to projected
+    long, lat = longlat_convert(x, y, prj_info, GeoT)
+    result = pd.DataFrame()
+    result['longitude'] = long
+    result['latitude'] = lat
+    result['row'] = x
+    result['col'] = y
+    result['sampled'] = 0
+    csv_filename = '{}_{}site_unif'.format(ts, len(x))
     return

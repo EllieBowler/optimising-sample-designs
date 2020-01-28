@@ -32,8 +32,9 @@ def plot_adapted_stratified(mask, x, y, sampled_csv):
     cbar.set_ticks([0, 1])
     cbar.set_ticklabels(['0: Invalid', '1: Valid'])
     num_sampled = sum(sampled_csv.sampled)
-    plt.scatter(y[:num_sampled], x[:num_sampled], c='black', marker='x', linewidth=1.5, s=70)
-    plt.scatter(y[num_sampled:], x[num_sampled:], c='red', marker='x', linewidth=1.5, s=70)
+    plt.scatter(y[:num_sampled], x[:num_sampled], c='black', marker='x', linewidth=1.5, s=70, label='Sampled')
+    plt.scatter(y[num_sampled:], x[num_sampled:], c='red', marker='x', linewidth=1.5, s=70, label='Shifted')
+    plt.legend(loc=(0.95, 0.5))
     plt.show()
     return
 

@@ -59,13 +59,13 @@ def update_mask(site_df, mask, radius, res):
 
     # Set the point to mask as a zero
     center_pixel = site_df.loc[site_df['sampled'] == 2]
-    x = center_pixel['row'].values;
-    y = center_pixel['col'].values
+    x = center_pixel['row'].values.astype(int)
+    y = center_pixel['col'].values.astype(int)
     mask_update[x, y] = 0
 
     # Threshold distance transform and add to original mask
     dist_im = ndimage.distance_transform_edt(mask_update) * res
-    dist_im[dist_im < radius] = 0;
+    dist_im[dist_im < radius] = 0
     dist_im[dist_im >= radius] = 1
 
     new_mask = dist_im * mask

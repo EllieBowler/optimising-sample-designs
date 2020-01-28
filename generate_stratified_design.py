@@ -17,7 +17,7 @@
 # python generate_stratified_design.py --save_folder Stratified_Design_Demo --mask_path raw/InvalidAreasMask.tif --nsp 30
 ###################################################################
 
-from utils import get_file_info, plot_stratified, save_stratified, save_coords_as_shp
+from utils import get_file_info, plot_stratified, save_stratified
 from sda import generate_stratified_design
 import os
 import click
@@ -25,10 +25,8 @@ import click
 
 # Arguments used to call the method from the command line
 @click.command()
-@click.option('--save_folder', type=str, default='Stratified_Design',
-               help='Specify the name of the folder where results will be saved')
-@click.option('--mask_path', type=str, default='raw/InvalidAreasMask.tif',
-               help='Specify path and name of the invalid areas mask')
+@click.option('--save_folder', type=str, default='Stratified_Design', help='Specify the name of the folder where results will be saved')
+@click.option('--mask_path', type=str, default='raw/InvalidAreasMask.tif', help='Specify path and name of the invalid areas mask')
 @click.option('--nsp', type=int, default=30, help='Specify an integer number of sample sites')
 def generate_design(save_folder, mask_path, nsp):
     
@@ -48,8 +46,7 @@ def generate_design(save_folder, mask_path, nsp):
     plot_stratified(mask, x_strat, y_strat)
 
     # save results to csv
-    save_stratified(x_strat, y_strat, prj_info, GeoT, save_path, nsampled=0, updated='')
-    # save_coords_as_shp(x_strat, y_strat, GeoT, save_path + '/Test.shp')
+    save_stratified(x_strat, y_strat, prj_info, GeoT, save_path)
     return
 
 

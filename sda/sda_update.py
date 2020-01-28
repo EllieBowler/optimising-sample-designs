@@ -15,8 +15,8 @@ def update_stratified_design(mask, sampled_csv):
     print('{} sites to be adjusted based on mask update'.format(nsp - nsampled))
 
     imheight, imwidth = mask.shape
-    sampled_x = sampled_df['row'].values
-    sampled_y = sampled_df['col'].values
+    sampled_x = sampled_df['row'].values.astype(int)
+    sampled_y = sampled_df['col'].values.astype(int)
 
     sites = np.ones((imheight, imwidth))
     sites[sampled_x, sampled_y] = 0

@@ -15,7 +15,7 @@
 # python update_stratified_design_opt1.py --save_folder AdaptedStratified30 --updated_mask_path raw/InvalidAreasMask_updated.tif --csv_path results
 ###################################################################
 
-from utils import get_file_info, plot_stratified, save_stratified, save_coords_as_shp
+from utils import get_file_info, plot_adapted_stratified, save_stratified
 from sda import update_stratified_design
 import os
 import click
@@ -25,7 +25,8 @@ import pandas as pd
 @click.command()
 @click.option('--save_folder', type=str, default='Stratified_Adapted', help='Specify the name of the folder where results will be saved')
 @click.option('--updated_mask_path', type=str, default='raw/InvalidAreasMask_updated.tif', help='Specify path and name of the invalid areas mask')
-@click.option('--csv_path', type=int, default=30, help='Specify an integer number of sample sites')
+@click.option('--csv_path', type=str, default='results/30site_strat_tagged_opt1.csv',
+              help='Specify an integer number of sample sites')
 def generate_design(save_folder, updated_mask_path, csv_path):
 
     # make results folder to save output
@@ -46,7 +47,6 @@ def generate_design(save_folder, updated_mask_path, csv_path):
 
     # save results to csv
     save_stratified(x_adpt, y_adpt, prj_info, GeoT, save_path, sampled_csv)
-    # save_coords_as_shp(x_adpt, y_adpt, GeoT, save_path + '/Test.shp')
     return
 
 

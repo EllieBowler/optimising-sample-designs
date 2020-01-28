@@ -16,8 +16,8 @@
 # python update_uniform_design_opt1.py --save_folder AdaptedStratified30 --updated_mask_path raw/InvalidAreasMask_updated.tif --csv_path results
 ###################################################################
 
-from utils import get_file_info, plot_design, save_stratified
-from sda import update_stratified_design
+from utils import get_file_info, plot_design, save_uniform
+from uda import update_uniform_design
 import os
 import click
 
@@ -33,17 +33,25 @@ def generate_design(save_folder, updated_mask_path, csv_path):
     if not os.path.exists(save_path):
         os.mkdir(save_path)
 
+    savefiles = np.load(npz_path)
+    ID_im = savefiles['ID_im']
+    metrics = savefiles['immetrics']
+    binned_metrics = savefiles['binned_metrics']
+
     # get geo info and mask from path
-    mask, nbins, res, GeoT, auth_code = get_file_info(mask_path)
+    updated_mask, nbins, res, GeoT, auth_code = get_file_info(updated_mask_path)
+    sampled_df, nsp, id_mix_unsampled, save_IDs, unique_IDs, nsampled = get_sampling_info(csv_path)
+
+    store_masks = store_layers(ID_im, mask, unique_IDs)
 
     # generate design
-    x_unif, y_unif = update_stratified_design(mask, nsp, sampled_df)
+    x_adpt, y_adpt = update_uniform_design(sampled_df, id_mix_unsampled, store_masks)
 
     # plot design in pop up
-    plot_design(mask, x_unif, y_unif)
+    plot_design(mask, x_adpt, y_adpt)
 
     # save results to csv
-    save_stratified(x_unif, y_unif, GeoT, auth_code, save_path, nsampled=0, updated='')
+    save_uniform(x_adpt, y_adpt, GeoT, auth_code, save_path, nsampled=0, updated='')
 
     return
 
