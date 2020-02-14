@@ -4,24 +4,23 @@ from scipy import ndimage
 
 
 def get_file_info(file_path):
-    '''
-    Function which extracts a geotiff file as numpy array, and saves geographic projection information
-    input:
+    """
+    Function which extracts a geo tiff file as numpy array, and saves geographic projection information
+    INPUTS:
         file_path: (str) Path to the file
-    output:
+    OUTPUTS:
         file_map: (np.array) The extracted map
-        nbins: (int) The number of categories in the map
+        n_bins: (int) The number of categories in the map
         res: (float) Resolution of the map in meters
-        GeoT: The geographic transform used to project the map
-        auth_code: The authority code matching the projection
-    '''
+        geo_t: (list) The geographic transform used to project the map
+    """
     file_raw = gdal.Open(file_path)
     prj_info = file_raw.GetProjection()
-    GeoT = file_raw.GetGeoTransform()
-    res = GeoT[1]
+    geo_t = file_raw.GetGeoTransform()
+    res = geo_t[1]
     file_map = file_raw.ReadAsArray()
-    nbins = len(np.unique(file_map))
-    return file_map, nbins, res, GeoT, prj_info
+    n_bins = len(np.unique(file_map))
+    return file_map, n_bins, res, geo_t, prj_info
 
 
 def extract_raster(tif_path):
@@ -37,37 +36,32 @@ def extract_raster(tif_path):
     return tif_raw.ReadAsArray()
 
 
-# def update_mask(site_df, mask, radius, res):
-#     imheight, imwidth = mask.shape
-#     mask_update = np.ones((imheight, imwidth))
-#     # Code the point to mask as zero
-#     center_pixel = site_df.loc[site_df['sampled']==2]
-#     x = center_pixel['row'].values; y = center_pixel['col'].values
-#     mask_update[x,y] = 0
-#     # Threshold distance transform and add to original mask
-#     dist_im = ndimage.distance_transform_edt(mask_update)*res
-#     dist_im[dist_im<radius] = 0; dist_im[dist_im>=radius] = 1;
-#     mask_inv = 1-mask; mask_new = 1-dist_im*mask_inv
-#     mask_new_inv = 1-mask_new
-#     return mask_new, mask_new_inv
-
-
 def update_mask(site_df, mask, radius, res):
+    """
+    Update invalid areas mask by excluding a radius around specified sites
+    INPUTS:
+        site_df: (panda dataframe) Dataframe containing sample site info and tagged sites
+        mask: (.npy array) The original invalid areas mask
+        radius: (float) Radius to exclude around tagged sites in metres
+        res: (float) Resolution of the satellite image in metres
+    OUTPUTS:
+        mask_update: (.npy array) Updated mask showing new inaccessible areas
+    """
     # Create array same dimensions as input mask
     imheight, imwidth = mask.shape
-    mask_update = np.ones((imheight, imwidth))
+    new_mask = np.ones((imheight, imwidth))
 
     # Set the point to mask as a zero
     center_pixel = site_df.loc[site_df['sampled'] == 2]
     x = center_pixel['row'].values.astype(int)
     y = center_pixel['col'].values.astype(int)
-    mask_update[x, y] = 0
+    new_mask[x, y] = 0
 
     # Threshold distance transform and add to original mask
-    dist_im = ndimage.distance_transform_edt(mask_update) * res
+    dist_im = ndimage.distance_transform_edt(new_mask) * res
     dist_im[dist_im < radius] = 0
     dist_im[dist_im >= radius] = 1
 
-    new_mask = dist_im * mask
+    mask_update = dist_im * mask
 
-    return new_mask
+    return mask_update

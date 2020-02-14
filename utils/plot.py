@@ -1,15 +1,38 @@
 from matplotlib import pyplot as plt
+import numpy as np
 
-def plot_design(mask, x, y):
-    plt.imshow(mask, cmap='Accent')
+
+def plot_uniform(id_im, mask, x, y):
+    """
+    Plot initial uniform design
+    INPUTS:
+        id_im: (.npy array) map showing distribution of ids in the landscape
+        mask: (.npy array) binary mask showing locations which should not be sampled
+        x: (list) x coordinates of sample sites
+        y: (list) y coordinates of sample sites
+    OUTPUTS:
+        Creates a pop up for the design, should be closed manually
+    """
+    print('Close plot to save results and continue running the code...')
+    id_im_msk = np.ma.masked_array(id_im, mask=(1-mask))
+    plt.imshow(id_im_msk)
     plt.scatter(y, x, c='black', marker='x', linewidth=2)
     plt.axis('off')
-    plt.title('{} design with {} sample sites'.format('Stratified', len(x)))
+    plt.title('Uniform design with {} sample sites'.format(len(x)))
     plt.show()
     return
 
 
 def plot_stratified(mask, x, y):
+    """
+    Plot initial stratified design
+    INPUTS:
+        mask: (.npy array) binary mask showing locations which should not be sampled
+        x: (list) x coordinates of sample sites
+        y: (list) y coordinates of sample sites
+    OUTPUTS:
+        Creates a pop up for the design, should be closed manually
+    """
     print('Close plot to save results and continue running the code...')
     plt.figure(figsize=(7, 9))
     plt.imshow(mask, cmap=plt.cm.get_cmap('Accent_r', 2))
@@ -22,7 +45,18 @@ def plot_stratified(mask, x, y):
     plt.show()
     return
 
+
 def plot_adapted_stratified(mask, x, y, sampled_csv):
+    """
+    Plot updated stratified design
+    INPUTS:
+        mask: (.npy array) binary mask showing locations which should not be sampled
+        x: (list) x coordinates of sample sites
+        y: (list) y coordinates of sample sites
+        sampled_csv: (data frame) data frame containing sample site information
+    OUTPUTS:
+        Creates a pop up for the design, should be closed manually
+    """
     print('Close plot to save results and continue running the code...')
     plt.figure(figsize=(7, 9))
     plt.imshow(mask, cmap=plt.cm.get_cmap('Accent_r', 2))
