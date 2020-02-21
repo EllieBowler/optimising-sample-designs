@@ -62,6 +62,8 @@ def generate_design(save_folder, hab_path, metrics, bins, mask_path, nsp):
     id_im, unique_ids = generate_id_im(all_layers, id_df)
     id_mix, id_df = generate_id_list(unique_ids, s_opt, nsp, id_df)
 
+    print(id_df.head())
+
     # generate design
     x_unif, y_unif = generate_uniform_design(id_mix, id_im)
 
@@ -69,7 +71,7 @@ def generate_design(save_folder, hab_path, metrics, bins, mask_path, nsp):
     plot_uniform(id_im, mask, x_unif, y_unif)
 
     # save results to csv
-    save_uniform(x_unif, y_unif, prj_info, geo_t, save_path)
+    save_uniform(x_unif, y_unif, id_mix, id_df, id_im, prj_info, geo_t, save_path)
 
     return
 
