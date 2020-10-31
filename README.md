@@ -35,6 +35,7 @@ In the topics below you can find an overview of the methods described in the pap
     - [Option 2](#option-2)
 - [Inputs](#inputs)
 - [**How to use this project**](#how-to-use-this-project)
+- [**Running jupyter demo files**](#running-demo-files)
 
 ## Important definitions  
 
@@ -108,3 +109,7 @@ Optional arguments:
 |  `-v`,<br>`--version` | check version | `python uda.py -v` | |  
 | `-gt`,<br>`--gtfolder` | folder that contains the input files | `python uda.py -gt /home/whatever/my_raw_files/` | `/optimising-sample-designs/raw`|  
 | `-sp`,<br>`--savepath` | folder where the results are saved | `python uda.py -sp /home/whatever/my_results/` | `optimising-sample-designs/results/` |  
+
+## Running demo files
+
+The .ipynb files in this repository can be loaded into Google Colaboratory an run remotely. This allows users to explore the code and load their own files without the need to download or install python or any extra libraries. To run these files please follow the set up instructions [here](https://github.com/EllieBowler/optimising-sample-designs/jupyter-colab-instructions.pdf).
