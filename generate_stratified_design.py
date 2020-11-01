@@ -5,7 +5,7 @@
 # All code available at https://github.com/EllieBowler/
 # This script distributes sample sites evenly over a given sample landscape.
 # This landscape is represented by a binary (0 = invalid, 1 = valid) geo-referenced satellite image.
-# For an example image please see InvalidAreasMask.tif in the raw data folder.
+# For an example image please see InvalidAreasMask.tif in the input data folder.
 ###################################################################
 # Usage:
 # --save_folder is the name of the directory where outputs will be saved, in the results subfolder
@@ -13,7 +13,7 @@
 # --nsp is the number of sample points which should be an integer value
 ###################################################################
 # Example of a 30 site stratified design using InvalidAreasMask.tif, saving outputs to Stratified_Design_Demo
-# python generate_stratified_design.py --save_folder=Stratified_Design_Demo --mask_path=raw/InvalidAreasMask.tif --nsp=30
+# python generate_stratified_design.py --save_folder=Stratified_Design_Demo --mask_path=input/InvalidAreasMask.tif --nsp=30
 ###################################################################
 
 from utils import get_file_info, plot_stratified, save_stratified
@@ -25,7 +25,7 @@ import click
 # Arguments used to call the method from the command line
 @click.command()
 @click.option('--save_folder', type=str, default='Stratified_Design', help='Name folder where results will be saved')
-@click.option('--mask_path', type=str, default='raw/InvalidAreasMask.tif', help='Path and name of the study site mask')
+@click.option('--mask_path', type=str, default='input/InvalidAreasMask.tif', help='Path and name of the study site mask')
 @click.option('--nsp', type=int, default=30, help='Integer number of sample sites')
 def generate_design(save_folder, mask_path, nsp):
     

@@ -14,7 +14,7 @@
 ###################################################################
 # Example adapting design generated using the test data
 # python update_stratified_design_opt1.py --save_folder=Stratified_Adapted
-# --updated_mask_path=raw/InvalidAreasMask_updated.tif --csv_path=results/30site_strat_tagged_opt1.csv
+# --updated_mask_path=input/InvalidAreasMask_updated.tif --csv_path=results/30site_strat_tagged_opt1.csv
 ###################################################################
 
 from utils import get_file_info, plot_adapted_stratified, save_stratified
@@ -26,7 +26,7 @@ import pandas as pd
 
 @click.command()
 @click.option('--save_folder', type=str, default='Stratified_Adapted', help='Name folder where results will be saved')
-@click.option('--updated_mask_path', type=str, default='raw/InvalidAreasMask_updated.tif', help='Path and name of updated invalid areas mask')
+@click.option('--updated_mask_path', type=str, default='input/InvalidAreasMask_updated.tif', help='Path and name of updated invalid areas mask')
 @click.option('--csv_path', type=str, default='results/30site_strat_tagged_opt2.csv', help='Path to tagged csv file')
 def generate_design(save_folder, updated_mask_path, csv_path):
 

@@ -13,7 +13,7 @@
 # --csv_path csv file output by the original stratified design, with sampled column tagged
 ###################################################################
 # Example adapting design generated using the test data
-# python update_uniform_design_opt1.py --save_folder AdaptedStratified30 --updated_mask_path raw/InvalidAreasMask_updated.tif --csv_path results
+# python update_uniform_design_opt1.py --save_folder AdaptedStratified30 --updated_mask_path input/InvalidAreasMask_updated.tif --csv_path results
 ###################################################################
 
 from utils import get_file_info, plot_design, save_uniform
@@ -24,7 +24,7 @@ import click
 
 @click.command()
 @click.option('--save_folder', type=str, default='Stratified_Adapted', help='Specify the name of the folder where results will be saved')
-@click.option('--updated_mask_path', type=str, default='raw/InvalidAreasMask_updated.tif', help='Specify path and name of the invalid areas mask')
+@click.option('--updated_mask_path', type=str, default='input/InvalidAreasMask_updated.tif', help='Specify path and name of the invalid areas mask')
 @click.option('--csv_path', type=int, default=30, help='Specify an integer number of sample sites')
 def generate_design(save_folder, updated_mask_path, csv_path):
 

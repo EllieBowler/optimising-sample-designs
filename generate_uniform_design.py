@@ -14,8 +14,8 @@
 # --nsp is the number of sample points which should be an integer value
 ###################################################################
 # Example command line input for an 80 site uniform design with the example metrics provided...
-# python generate_uniform_design.py --metrics=raw/FragmentAreaLog10.tif --bins=7
-# --metrics=raw/DistanceToEdgeLog2.tif --bins=6
+# python generate_uniform_design.py --metrics=input/FragmentAreaLog10.tif --bins=7
+# --metrics=input/DistanceToEdgeLog2.tif --bins=6
 ###################################################################
 
 from utils import get_file_info, plot_uniform, save_uniform, extract_raster
@@ -29,7 +29,7 @@ from matplotlib import pyplot as plt
 # Arguments used to call the method from the command line
 @click.command()
 @click.option('--save_folder', type=str, default='Uniform_Design', help='Name of folder where results will be saved')
-@click.option('--hab_path', type=str, default='raw/HabitatMap.tif', help='Path to categorical habitat map')
+@click.option('--hab_path', type=str, default='input/HabitatMap.tif', help='Path to categorical habitat map')
 @click.option('--metrics', multiple=True, help='Specify path and name of metric')
 @click.option('--bins', multiple=True, help='Number of bins to break each metric into')
 @click.option('--mask_path', type=str, default=None, help='Specify path and name of the invalid areas mask')

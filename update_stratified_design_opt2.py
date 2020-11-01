@@ -17,7 +17,7 @@
 # --radius is the radius to exclude around inaccessible sites (in metres)
 ###################################################################
 # Example adapting design generated using the test data
-# python update_stratified_design_opt2.py --save_folder=Stratified_Adapted --original_mask_path=raw/InvalidAreasMask.tif
+# python update_stratified_design_opt2.py --save_folder=Stratified_Adapted --original_mask_path=input/InvalidAreasMask.tif
 # --csv_path=results/30site_strat_tagged_opt2.csv --radius=1000
 ###################################################################
 
@@ -30,7 +30,7 @@ import pandas as pd
 
 @click.command()
 @click.option('--save_folder', type=str, default='Stratified_Adapted', help='Name folder where results will be saved')
-@click.option('--original_mask_path', type=str, default='raw/InvalidAreasMask.tif', help='Path and name of invalid areas mask')
+@click.option('--original_mask_path', type=str, default='input/InvalidAreasMask.tif', help='Path and name of invalid areas mask')
 @click.option('--csv_path', type=str, default='results/30site_strat_tagged_opt2.csv', help='Path to tagged csv file')
 @click.option('--radius', type=float, default=3000, help='Radius to exclude around tagged points (in metres)')
 def generate_design(save_folder, original_mask_path, csv_path, radius):
