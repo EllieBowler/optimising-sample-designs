@@ -112,6 +112,4 @@ Optional arguments:
 
 ## Running demo files
 
-The .ipynb files in this repository provide code demonstrations, and can be run remotely via [Google Colaboratory](https://colab.research.google.com/notebooks/intro.ipynb). This allows users to explore the code, load their own files, and generate designs without the need to download or install python or any extra libraries. To run these demo files please first [download the test files here](https://github.com/EllieBowler/optimising-sample-designs/raw/master/test_files.zip) follow the [set up instructions here](https://github.com/EllieBowler/optimising-sample-designs/raw/master/jupyter-colab-instructions.pdf).
-
-Test the example files [here](https://github.com/EllieBowler/optimising-sample-designs/raw/master/test_files.zip)
+The .ipynb files in this repository provide code demonstrations, and can be run remotely via Google Colaboratory. This allows users to explore the code, load their own files, and generate designs without the need to download or install python or any extra libraries. To run these demo files please first [download the test files here](https://github.com/EllieBowler/optimising-sample-designs/raw/master/test_files.zip) and then follow [these instructions](https://github.com/EllieBowler/optimising-sample-designs/raw/master/jupyter-colab-instructions.pdf) to get set up. 
