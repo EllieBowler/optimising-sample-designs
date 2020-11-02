@@ -101,15 +101,16 @@ The uniform design focuses on spreading sites as evenly as possible within the m
 `python generate_uniform_design.py --metrics=input/FragmentAreaLog10.tif --bins=7 --metrics=input/DistanceToEdgeLog2.tif --bins=6 --nsp=80 --save_folder=uniform-demo`
 
 
-### Adapted Designs
+## Adapted Designs
 
-Sometimes unforseen circumstances make it impossible to access certain locations. In this instance designs can be updated, keep all sites which have been successfully accessed in place.
-There are two options for adapting designs based on user preference:
+Sometimes unforseen circumstances make it impossible to access certain locations. In this instance designs can be updated, keep all sites which have been successfully accessed in place. There are two options for adapting designs based on user preference, both involve **tagging the csv file output by the original design** which you will need to proceed:
 
-#### Option 1
+### Option 1
+
+1. In the ```sampled``` column of the csv file output by either the stratified or uniform design, put a one next to all sites **which have been sampled already**.
 
 The invalid areas mask can be manually upadste in software such as arcmap. Instructions can be found here. 
 
-#### Option 2
+### Option 2
 
 The csv file can be tagged with a 2 in 'sampled column'. A user defined radiaus can then be masked around this point. 
