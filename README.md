@@ -26,20 +26,23 @@ In the topics below you can find an overview of the methods described in the pap
 
 - [Motivation](#optimising-sample-designs)
 - [Inputs](#inputs)
+  -[Map inputs](#map-inputs)
+  -[Other inputs](#other-inputs)
 - [**Running jupyter demo files**](#running-demo-files)
 - [Package list](#package-list)
-- [Important definitions](#important-definitions)
-  - [Stratified Design Algorithm](#stratified-design-algorithm)
-  - [Uniform Design Algorithm](#uniform-design-algorithm)
-  - [Adapted Designs](#adapted-designs)
-    - [Option 1](#option-1)
-    - [Option 2](#option-2)
+- [Stratified Design Algorithm](#stratified-design-algorithm)
+- [Uniform Design Algorithm](#uniform-design-algorithm)
+- [Adapted Designs](#adapted-designs)
+  - [Option 1](#option-1)
+  - [Option 2](#option-2)
 - [**How to use this project**](#how-to-use-this-project)
 
 ## Inputs
+
+### Map Inputs
 Spatial inputs fall into three main categories, as below. Example metric maps are provided in the ```input``` folder, and can also be downloaded directly [here](https://github.com/EllieBowler/optimising-sample-designs/raw/master/test_files.zip). All map should be in **georeferenced tif format**. 
 
-- **Habitat Map**: A categorical map classifying the landscape into land-cover types. This should be the map used to quantify and generate the fragmentation metric maps. In the example we have:
+- **Habitat Map**: A categorical map classifying the landscape into land-cover types, which should be the one used to produce the metric maps. In the example we have:
   - HabitatMap.tif: A two-category grassland/forest map
 - **Invalid Areas Mask**: Map showing areas to exclude (with 0=invalid / 1=valid). The example files include:
   - InvalidAreasMask.tif: masks out all non-focal grassland habitat
@@ -47,11 +50,16 @@ Spatial inputs fall into three main categories, as below. Example metric maps ar
 - **Fragmentation Metric Maps**: Maps showing some feature of fragmentation. The example files include:
   - DistanceToEdgeLog2.tif: Log 2 transformed distance to edge (m, up to a maximum of 1024m)
   - FragmentAreaLog10.tif: Log 10 transformed fragment area (ha)
+  
+### Other Inputs
+Extra inputs which can be specified by the user include:
+- **Number of sample sites**: ```nsp``` should be an integer value specifying the desired number of sites
+- **Number of bins**: ```n_bins``` an integer value specifying the number of intervals the range of a metric should be broken into
 
 
 ## Running demo files
 
-The .ipynb files in this repository provide code demonstrations, and can be run remotely via Google Colaboratory. This allows users to explore the code, load their own files, and generate designs without the need to download or install python or any extra libraries. To run these demo files please first [download the test files here](https://github.com/EllieBowler/optimising-sample-designs/raw/master/test_files.zip) and then follow [these instructions](https://github.com/EllieBowler/optimising-sample-designs/raw/master/jupyter-colab-instructions.pdf) to get set up. 
+The .ipynb files in this repository provide code demonstrations using the example files listed above, and can be run remotely via Google Colaboratory. This allows users to explore the code, load their own files, and generate designs without the need to download or install python or any extra libraries. To run these demo files please first [download the test files here](https://github.com/EllieBowler/optimising-sample-designs/raw/master/test_files.zip) and then follow [these instructions](https://github.com/EllieBowler/optimising-sample-designs/raw/master/jupyter-colab-instructions.pdf) to get set up. 
 
 
 ### Package list
@@ -67,12 +75,9 @@ The following packages are required to run the code:
 - scipy 1.0.0
 
 
-## Important definitions  
+## Stratified Design Algorithm
 
-### Stratified Design Algorithm
-
-The stratified design focusus only on spreading sites evenly given the layout of inbvalid areas. Invalid areas can include towns, roads, locations which are known to be inaccessible, or habitat
-types which are not of interest. The design is the building block for the uniform design alogorithm. 
+The stratified design focuses only on spreading sites evenly geographically, given the layout of invalid areas. Invalid areas could include towns, roads, bodies of water, habitat types which are not of interest, areas in high elevation etc. The design is the building block for the uniform design alogorithm. 
 
 The image below illustrates an example input and output of the stratified design.
 
