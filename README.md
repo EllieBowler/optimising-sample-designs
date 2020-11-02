@@ -25,37 +25,16 @@ In the topics below you can find an overview of the methods described in the pap
 ## Table of contents
 
 - [Motivation](#optimising-sample-designs)
+- [**Running jupyter demo files**](#running-demo-files)
+- [Package list](#package-list)
 - [Inputs](#inputs)
   - [Map inputs](#map-inputs)
   - [Other inputs](#other-inputs)
-- [**Running jupyter demo files**](#running-demo-files)
-- [Package list](#package-list)
 - [Stratified Design Algorithm](#stratified-design-algorithm)
 - [Uniform Design Algorithm](#uniform-design-algorithm)
 - [Adapted Designs](#adapted-designs)
   - [Option 1](#option-1)
   - [Option 2](#option-2)
-- [**How to use this project**](#how-to-use-this-project)
-
-## Inputs
-
-### Map Inputs
-Spatial inputs fall into three main categories, as below. Example metric maps are provided in the ```input``` folder, and can also be downloaded directly [here](https://github.com/EllieBowler/optimising-sample-designs/raw/master/test_files.zip). All map should be in **georeferenced tif format**. 
-
-- **Habitat Map**: A categorical map classifying the landscape into land-cover types, which should be the one used to produce the metric maps. In the example we have:
-  - HabitatMap.tif: A two-category grassland/forest map
-- **Invalid Areas Mask**: Map showing areas to exclude (with 0=invalid / 1=valid). The example files include:
-  - InvalidAreasMask.tif: masks out all non-focal grassland habitat
-  - InvalidAreasMask_updated.tif: adds additional excluded regions which can be used to test the adapted design options
-- **Fragmentation Metric Maps**: Maps showing some feature of fragmentation. The example files include:
-  - DistanceToEdgeLog2.tif: Log 2 transformed distance to edge (m, up to a maximum of 1024m)
-  - FragmentAreaLog10.tif: Log 10 transformed fragment area (ha)
-  
-### Other Inputs
-Extra inputs which can be specified by the user include:
-- **Number of sample sites**: ```nsp``` should be an integer value specifying the desired number of sites
-- **Number of bins**: ```n_bins``` an integer value specifying the number of intervals the range of a metric should be broken into
-
 
 ## Running demo files
 
@@ -74,24 +53,53 @@ The following packages are required to run the code:
 - matplotlib 2.1.0
 - scipy 1.0.0
 
+## Inputs
+
+### Map Inputs
+Spatial inputs fall into three main categories, as below. Example metric maps are provided in the ```input``` folder, and can also be downloaded directly [here](https://github.com/EllieBowler/optimising-sample-designs/raw/master/test_files.zip). All map should be in **georeferenced tif format**. 
+
+- **Habitat Map**: A categorical map classifying the landscape into land-cover types, which should be the one used to produce the metric maps. In the example we have:
+  - HabitatMap.tif: A two-category grassland/forest map
+- **Invalid Areas Mask**: Map showing areas to exclude (with 0=invalid / 1=valid). The example files include:
+  - InvalidAreasMask.tif: masks out all non-focal grassland habitat
+  - InvalidAreasMask_updated.tif: adds additional excluded regions which can be used to test the adapted design options
+- **Fragmentation Metric Maps**: Maps showing some feature of fragmentation. The example files include:
+  - DistanceToEdgeLog2.tif: Log 2 transformed distance to edge (m, up to a maximum of 1024m)
+  - FragmentAreaLog10.tif: Log 10 transformed fragment area (ha)
+  
+### Other Inputs
+
+| Argument &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| Description | Example |
+|:-------------:|:-----------:|:-----------:|
+| `--nsp` |	number of sample sites | `python generate_stratified_design.py --nsp=30` | `30`|  
+| `--mask_path` | path to mask tif file | `python generate_stratified_design.py --mask_path=input/InvalidAreasMask.tif` |   
+| `--hab_path` | path to categorical habitat map | `python generate_uniform_design.py --hab_path=input/HabitatMap.tif` | 
+| `--save_folder` | name of results folder | `python generate_uniform_design.py --save_folder=uniform_design` |   
+| `--metrics` | name of metric map | `python generate_uniform_design.py --metrics=input/FragmentAreaLog10.tif` | 
+| `--bins` | number of intervals metric sampled at | `python generate_uniform_design.py --bins=7` | 
+
 
 ## Stratified Design Algorithm
 
-The stratified design focuses only on spreading sites evenly geographically, given the layout of invalid areas. Invalid areas could include towns, roads, bodies of water, habitat types which are not of interest, areas in high elevation etc. The design is the building block for the uniform design alogorithm. 
+The stratified design focuses only on spreading sites evenly geographically, given the layout of invalid areas. Invalid areas could include towns, roads, bodies of water, habitat types which are not of interest, areas in high elevation etc. The design is the building block for the uniform design algorithm. 
 
-The image below illustrates an example input and output of the stratified design.
+Example generating a stratified design using the test files, with 30 sample sites, saving the output in folder called `stratified-demo`:
 
-<!--- Stratified Design --->
-<p align="center">
-<img src="https://github.com/EllieBowler/optimising-sample-designs/aux_images/filename.png" align="center"/></p>
+`python generate_stratified_design.py --mask_path=input/InvalidAreasMask.tif --save_folder=stratified-demo --nsp=30`
 
-### Uniform Design Algorithm 
 
-The image below illustrates an example input and output of the uniform design.
+## Uniform Design Algorithm 
 
-<!--- Stratified Design --->
-<p align="center">
-<img src="https://github.com/EllieBowler/optimising-sample-designs/aux_images/filename.png" align="center"/></p>
+The uniform design focuses on spreading sites as evenly as possible within the metric space, while at the same time maximising separation in geographic space. The requirements for this design is a habitat map and at least one fragmentation metric. 
+
+- Example generating a uniform design using one metric (distance to edge, split into 10 bins) and one habitat (masking out the other using an invalid areas mask), and 50 sample sites:
+
+`python generate_uniform_design.py --metrics=input/DistanceToEdgeLog2.tif --bins=10 --nsp=50 --save_folder=uniform-demo --mask_path=input/InvalidAreasMask.tif`
+
+- Example generating a two metric design (using 7 bins for fragment area, and 6 for distance to edge), and 80 sample sites
+
+`python generate_uniform_design.py --metrics=input/FragmentAreaLog10.tif --bins=7 --metrics=input/DistanceToEdgeLog2.tif --bins=6 --nsp=80 --save_folder=uniform-demo`
+
 
 ### Adapted Designs
 
@@ -105,39 +113,3 @@ The invalid areas mask can be manually upadste in software such as arcmap. Instr
 #### Option 2
 
 The csv file can be tagged with a 2 in 'sampled column'. A user defined radiaus can then be masked around this point. 
-
-
-
-
-#### An ilustrated example 
-
-## How to use this project
-
-[Sample_1](https://github.com/rafaelpadilla/Object-Detection-Metrics/tree/master/samples/sample_1) and [sample_2](https://github.com/rafaelpadilla/Object-Detection-Metrics/tree/master/samples/sample_2) 
-are practical examples demonstrating how to access directly the core functions of this project, providing more flexibility on the usage of the metrics. But if you don't want to spend your time understanding our code, see the instructions below to easily evaluate your detections:  
-
-Follow the steps below to start evaluating your detections:
-
-1. [Copy input files into raw data folder](#copy-input-files-into-raw-data-folder)
-2. For **uniform design**, run the command: `python uda.py`  
-   If you want to reproduce the example above, run the command: `python uda.py --nsp 30`
-3. (Optional) [You can use arguments to control the optimal number of sample sites, save file name etc](#optional-arguments)
-
-### Copy input files into raw data folder
-
-The files you need will depend on the design you wish to generate. For demonstration we have put example files in the raw folder. These include:
-- Log 10 etc
-- mask.tif
-- etc
-
-### Optional arguments
-
-Optional arguments:
-
-| Argument &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| Description | Example | Default |
-|:-------------:|:-----------:|:-----------:|:-----------:|
-| `-h`,<br>`--help ` |	show help message | `python uda.py -h` | |  
-|  `-v`,<br>`--version` | check version | `python uda.py -v` | |  
-| `-gt`,<br>`--gtfolder` | folder that contains the input files | `python uda.py -gt /home/whatever/my_raw_files/` | `/optimising-sample-designs/raw`|  
-| `-sp`,<br>`--savepath` | folder where the results are saved | `python uda.py -sp /home/whatever/my_results/` | `optimising-sample-designs/results/` |  
-
