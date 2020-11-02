@@ -26,8 +26,8 @@ In the topics below you can find an overview of the methods described in the pap
 
 - [Motivation](#optimising-sample-designs)
 - [Inputs](#inputs)
-  -[Map inputs](#map-inputs)
-  -[Other inputs](#other-inputs)
+  - [Map inputs](#map-inputs)
+  - [Other inputs](#other-inputs)
 - [**Running jupyter demo files**](#running-demo-files)
 - [Package list](#package-list)
 - [Stratified Design Algorithm](#stratified-design-algorithm)
