@@ -18,13 +18,15 @@ Habitat fragmentation can be assessed with a wide range of different metrics, fo
 
 3. Field researchers face challenges with inaccessible regions such as areas of private land, distance to research stations and unexpected obstacles such as landslides.
 
-While it is common practice to use satellite dervied maps to quantify fragmentation metrics for a study landscape, to our knowledge these metric maps are predominantly used to extract metric values after sampling is completed. The novel approach we take in this study is to use these metric maps directly in the sampling design stage, allowing the configuration of metric values in the landscape to be quantitatively assessed.
+While it is common practice to use satellite dervied maps to quantify fragmentation metrics for a study landscape, to our knowledge these metric maps are predominantly used to extract metric values after sampling is completed. The novel approach we take in this study is to use these metric maps directly in the sampling design stage, allowing the configuration of metric values in the landscape to be quantitatively assessed. The methods are presented as open-source python code, and include features for masking innaccessible locations, suggesting optimal number of sample sites, and adapting partially completed designs given unforseen field-work imposed constraints.
   
 In the topics below you can find an overview of the methods described in the paper, as well as samples showing how to use our code.
 
 ## Table of contents
 
 - [Motivation](#optimising-sample-designs)
+- [**Running jupyter demo files**](#running-demo-files)
+- [Package list](#package-list)
 - [Important definitions](#important-definitions)
   - [Stratified Design Algorithm](#stratified-design-algorithm)
   - [Uniform Design Algorithm](#uniform-design-algorithm)
@@ -33,7 +35,24 @@ In the topics below you can find an overview of the methods described in the pap
     - [Option 2](#option-2)
 - [Inputs](#inputs)
 - [**How to use this project**](#how-to-use-this-project)
-- [**Running jupyter demo files**](#running-demo-files)
+
+## Running demo files
+
+The .ipynb files in this repository provide code demonstrations, and can be run remotely via Google Colaboratory. This allows users to explore the code, load their own files, and generate designs without the need to download or install python or any extra libraries. To run these demo files please first [download the test files here](https://github.com/EllieBowler/optimising-sample-designs/raw/master/test_files.zip) and then follow [these instructions](https://github.com/EllieBowler/optimising-sample-designs/raw/master/jupyter-colab-instructions.pdf) to get set up. 
+
+
+### Package list
+
+The following packages are required to run the code:
+
+- conda 4.5.9
+- numpy 1.15.0
+- pandas 0.20.3
+- click 6.7
+- gdal 2.3.1
+- matplotlib 2.1.0
+- scipy 1.0.0
+
 
 ## Important definitions  
 
@@ -108,6 +127,3 @@ Optional arguments:
 | `-gt`,<br>`--gtfolder` | folder that contains the input files | `python uda.py -gt /home/whatever/my_raw_files/` | `/optimising-sample-designs/raw`|  
 | `-sp`,<br>`--savepath` | folder where the results are saved | `python uda.py -sp /home/whatever/my_results/` | `optimising-sample-designs/results/` |  
 
-## Running demo files
-
-The .ipynb files in this repository provide code demonstrations, and can be run remotely via Google Colaboratory. This allows users to explore the code, load their own files, and generate designs without the need to download or install python or any extra libraries. To run these demo files please first [download the test files here](https://github.com/EllieBowler/optimising-sample-designs/raw/master/test_files.zip) and then follow [these instructions](https://github.com/EllieBowler/optimising-sample-designs/raw/master/jupyter-colab-instructions.pdf) to get set up. 
