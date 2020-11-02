@@ -25,6 +25,7 @@ In the topics below you can find an overview of the methods described in the pap
 ## Table of contents
 
 - [Motivation](#optimising-sample-designs)
+- [Example Inputs](#inputs)
 - [**Running jupyter demo files**](#running-demo-files)
 - [Package list](#package-list)
 - [Important definitions](#important-definitions)
@@ -33,8 +34,14 @@ In the topics below you can find an overview of the methods described in the pap
   - [Adapted Designs](#adapted-designs)
     - [Option 1](#option-1)
     - [Option 2](#option-2)
-- [Inputs](#inputs)
 - [**How to use this project**](#how-to-use-this-project)
+
+## Example Inputs
+Example files are provided in the ```inputs``` folder, and can also be downloaded directly [here](https://github.com/EllieBowler/optimising-sample-designs/raw/master/test_files.zip). 
+
+* **Invalid Areas Mask**: A georeferenced tif file with 0=invalid / 1=valid  
+* **Metric Map**: Map showing some feature of fragmentation 
+* **Number of sample sites (nsp)**: Integer number of samples sites  
 
 ## Running demo files
 
@@ -89,11 +96,7 @@ The invalid areas mask can be manually upadste in software such as arcmap. Instr
 The csv file can be tagged with a 2 in 'sampled column'. A user defined radiaus can then be masked around this point. 
 
 
-## Inputs
 
-* **Invalid Areas Mask**: A georeferenced tif file with 0=valid / 1=invalid  
-* **Metric Map**: Map showing some feature of fragmentation 
-* **Number of sample sites (nsp)**: Integer number of samples sites  
 
 #### An ilustrated example 
 
