@@ -25,7 +25,7 @@ In the topics below you can find an overview of the methods described in the pap
 ## Table of contents
 
 - [Motivation](#optimising-sample-designs)
-- [Example Inputs](#inputs)
+- [Inputs](#inputs)
 - [**Running jupyter demo files**](#running-demo-files)
 - [Package list](#package-list)
 - [Important definitions](#important-definitions)
@@ -36,12 +36,18 @@ In the topics below you can find an overview of the methods described in the pap
     - [Option 2](#option-2)
 - [**How to use this project**](#how-to-use-this-project)
 
-## Example Inputs
-Example files are provided in the ```inputs``` folder, and can also be downloaded directly [here](https://github.com/EllieBowler/optimising-sample-designs/raw/master/test_files.zip). 
+## Inputs
+Spatial inputs fall into three main categories, as below. Example metric maps are provided in the ```input``` folder, and can also be downloaded directly [here](https://github.com/EllieBowler/optimising-sample-designs/raw/master/test_files.zip). All map should be in **georeferenced tif format**. 
 
-* **Invalid Areas Mask**: A georeferenced tif file with 0=invalid / 1=valid  
-* **Metric Map**: Map showing some feature of fragmentation 
-* **Number of sample sites (nsp)**: Integer number of samples sites  
+- **Habitat Map**: A categorical map classifying the landscape into land-cover types. This should be the map used to quantify and generate the fragmentation metric maps. In the example we have:
+  - HabitatMap.tif: A two-category grassland/forest map
+- **Invalid Areas Mask**: Map showing areas to exclude (with 0=invalid / 1=valid). The example files include:
+  - InvalidAreasMask.tif: masks out all non-focal grassland habitat
+  - InvalidAreasMask_updated.tif: adds additional excluded regions which can be used to test the adapted design options
+- **Fragmentation Metric Maps**: Maps showing some feature of fragmentation. The example files include:
+  - DistanceToEdgeLog2.tif: Log 2 transformed distance to edge (m, up to a maximum of 1024m)
+  - FragmentAreaLog10.tif: Log 10 transformed fragment area (ha)
+
 
 ## Running demo files
 
