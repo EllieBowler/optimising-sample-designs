@@ -11,17 +11,15 @@ Download the paper [add link to paper](https://github.com/EllieBowler/optimising
 The motivation of this project is to develop a standardised computational approach to designing sample layouts for habitat fragmentations studies. 
 Importantly we propose taking widely used fragmentation metric maps as inputs to the methods, which will **output designs optimised to cover the metrics of interest.**
 
-Habitat fragmentation can be assessed with a wide range of different metrics, for example distance to habitat edges, areas of fragments, their compactness and configuration. 
-Commonly these metrics are calculated by using satellite maps of study sites, and using programs such as fragstats to output maps representing these metrics. 
-Despite this, metrics are commonly used at the assessment stage, and negelcted at teh design stage. In order to properly assess a landscape, we should optimise the placement of
-sites along gradients of the metric quantities. This leads to little standardisation between studies, and sub-optimal coverage of the metrics of interest. 
+Habitat fragmentation can be assessed with a wide range of different metrics, for example distance to habitat edges, fragment area, shape and configuration. While many studies aim to record impacts in relation to these metrics, in practice designing sample schemes which capture reponses to these measures can be challenging for three main reasons:
+1. Fragmented landscapes present a complex mosaic which can be challenging to assess, making it difficult to optimally sample ranges of fragmentation metrics
 
-**This project provides functions which output sampling designs based on user input fragmentation metric maps**. 
-Our implementation can be used on any map which can be represented as a georeferenced tiff file, and can optimise along multiple metrics in tandem. 
-Invalid areas masks can also be used to remove known innaccessible locations. The outputs are in csv format, showing the long lat coordinated of sample locations. 
-The methods are implented in python, however we also provide demonstation jupyter notebooks which can be loaded and run in google colabotory. This allows users to run the methods
-without the need to install python or any packages.   
+2. Sample points are often placed in close proximity in the landscape leading to issues with spatial autocorrelation
 
+3. Field researchers face challenges with inaccessible regions such as areas of private land, distance to research stations and unexpected obstacles such as landslides.
+
+While it is common practice to use satellite dervied maps to quantify fragmentation metrics for a study landscape, to our knowledge these metric maps are predominantly used to extract metric values after sampling is completed. The novel approach we take in this study is to use these metric maps directly in the sampling design stage, allowing the configuration of metric values in the landscape to be quantitatively assessed.
+  
 In the topics below you can find an overview of the methods described in the paper, as well as samples showing how to use our code.
 
 ## Table of contents
