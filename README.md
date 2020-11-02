@@ -106,17 +106,29 @@ The uniform design focuses on spreading sites as evenly as possible within the m
 Sometimes unforseen circumstances make it impossible to access certain locations. In this instance designs can be updated, keep all sites which have been successfully accessed in place. There are two options for adapting designs based on user preference, both involve **tagging the csv file output by the original design** which you will need to proceed:
 
 ### Option 1
-
-1. In the ```sampled``` column of the csv file output by either the stratified or uniform design, put a one next to all sites **which have been sampled already**.
+In option 1 we manually update the invalid areas mask to include new inaccessible locations. 
+1. In the ```sampled``` column of the csv file output by either the original design, put a one next to all sites **which have been sampled already**.
 
 <p align="center">
 <img src="https://github.com/EllieBowler/optimising-sample-designs/raw/master/aux_imgs/csv-tag-opt1.png" align="center"/></p>
 
-The invalid areas mask can be manually upadste in software such as arcmap. Instructions can be found here. 
+2. Manually update your invaild areas mask to include the new inaccessible areas, this could be done in software such as arcmap. An example updated map is provided in the ```input``` folder (InvaildAreasMask_updated.tif).
+
+3. Copy both these files to the ```input``` folder.
+
+4. Run the updated design option 1 code, all sites still tagged with a zero will be updated to a new optimal location. For example if the saved csv was called strat30-tagged.csv:
+
+`python update_stratified_design_opt1.py --save_folder=strat-adapted --updated_mask_path=input/InvalidAreasMask_updated.tif --csv_path=input/strat30-tagged.csv`
 
 ### Option 2
-
-The csv file can be tagged with a 2 in 'sampled column'. A user defined radiaus can then be masked around this point. 
+In option 2 we exclude a user specified radius around selected inaccessible sample sites.
+1. In the ```sampled``` column of the csv file output by either the original design, put a one next to all sites which have already been sampled, and a **two next to the site you would like to mask out**
 
 <p align="center">
 <img src="https://github.com/EllieBowler/optimising-sample-designs/raw/master/aux_imgs/csv-tag-opt2.png" align="center"/></p>
+
+2. Copy this tagged csv to the ```input``` folder.
+
+3. Run the updated design option 2 code, and specify the radius (in metres) you would like to exclude around the site tagged with a two. You will also need to include the path to the original invalid areas mask. For example
+
+`python update_stratified_design_opt2.py --save_folder=strat-adapted --csv_path=input/strat30-tagged.csv --radius=1000 --original_mask_path=input/InvalidAreasMask.tif`
