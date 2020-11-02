@@ -110,10 +110,13 @@ Sometimes unforseen circumstances make it impossible to access certain locations
 1. In the ```sampled``` column of the csv file output by either the stratified or uniform design, put a one next to all sites **which have been sampled already**.
 
 <p align="center">
-<img src="https://github.com/EllieBowler/optimising-sample-designs/raw/master/aux_images/tagged_csv.png" align="center"/></p>
+<img src="https://github.com/EllieBowler/optimising-sample-designs/raw/master/aux_imgs/csv-tag-opt1.png" align="center"/></p>
 
 The invalid areas mask can be manually upadste in software such as arcmap. Instructions can be found here. 
 
 ### Option 2
 
 The csv file can be tagged with a 2 in 'sampled column'. A user defined radiaus can then be masked around this point. 
+
+<p align="center">
+<img src="https://github.com/EllieBowler/optimising-sample-designs/raw/master/aux_imgs/csv-tag-opt2.png" align="center"/></p>
